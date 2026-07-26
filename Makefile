@@ -1,6 +1,14 @@
 ccflags-y :=
 CFG_DIR ?= $(TOP)/vendor/mediatek/kernel_modules/connectivity/wlan/core/gen4m/configs
 
+export CONFIG_MTK_COMBO_WIFI_HIF=axi
+export MTK_ANDROID_EMI=y
+export MTK_ANDROID_WMT=y
+export MTK_COMBO_CHIP=SOC2_1X1
+export MTK_WLAN_SERVICE=yes
+export WIFI_IP_SET=1
+export WLAN_CHIP_ID=6835
+
 ifeq ($(CONFIG_MTK_PLATFORM),)
     CONFIG_MTK_PLATFORM := mt$(WLAN_CHIP_ID)
 endif
@@ -101,7 +109,7 @@ $(info $$WLAN_CHIP_ID is [${WLAN_CHIP_ID}])
 $(info $$MTK_COMBO_CHIP is [${MTK_COMBO_CHIP}])
 $(info $$WLAN_CONNAC3_DEV is [${WLAN_CONNAC3_DEV}])
 
-include $(CFG_DIR)/defconfig
+# include $(CFG_DIR)/defconfig
 ifneq ($(wildcard $(CFG_DIR)/${MTK_COMBO_CHIP}/defconfig),)
     include $(CFG_DIR)/${MTK_COMBO_CHIP}/defconfig
 endif
