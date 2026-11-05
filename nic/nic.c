@@ -6188,6 +6188,11 @@ void nicSerInit(struct ADAPTER *prAdapter, const u_int8_t bAtResetFlow)
 				   WIFI_SER_SYNC_TIMER_TIMEOUT_IN_MS);
 	}
 #endif /* _HIF_USB */
+
+#ifdef OPLUS_FEATURE_CONN_POWER_MONITOR
+//add for  connectivity power monitor
+	oplusLpmUeventInit();
+#endif /* OPLUS_FEATURE_CONN_POWER_MONITOR */
 }
 
 void nicSerDeInit(struct ADAPTER *prAdapter)
@@ -6200,6 +6205,11 @@ void nicSerDeInit(struct ADAPTER *prAdapter)
 #if defined(_HIF_USB)
 	cnmTimerStopTimer(prAdapter, &rSerSyncTimer);
 #endif
+
+#ifdef OPLUS_FEATURE_CONN_POWER_MONITOR
+//add for  connectivity power monitor
+	oplusConnUeventDeinit();
+#endif /* OPLUS_FEATURE_CONN_POWER_MONITOR */
 }
 /* fos_change begin */
 #if CFG_SUPPORT_WAKEUP_STATISTICS

@@ -1776,3 +1776,10 @@ uint32_t nicRxGetInUseCnt(struct ADAPTER *prAdapter);
 void nicRxSetInUseCnt(struct ADAPTER *prAdapter,
 	uint32_t u4InUseCnt, u_int8_t fgAdjustNow);
 #endif /* _NIC_RX_H */
+
+#ifdef OPLUS_FEATURE_CONN_POWER_MONITOR
+//add for connectivity power monitor
+int oplusLpmUeventInit(void);
+void oplusConnUeventDeinit(void);
+int oplusLpmSendUevent(const char *);
+#endif /* OPLUS_FEATURE_CONN_POWER_MONITOR */

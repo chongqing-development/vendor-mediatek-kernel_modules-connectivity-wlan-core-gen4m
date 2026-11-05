@@ -4491,3 +4491,41 @@ void nicRxSetInUseCnt(struct ADAPTER *prAdapter,
 		nicRxAdjustInUseRFB(prAdapter);
 #endif /* CFG_DYNAMIC_RFB_ADJUSTMENT */
 }
+
+#ifdef OPLUS_FEATURE_CONN_POWER_MONITOR
+//add for  connectivity power monitor
+#define RET_ERR  1
+#define RET_OK  0
+
+static struct work_struct mWork;
+static char mUevent[256] = {'\0'};
+
+static void oplusWorkHandler(struct work_struct *data)
+{
+	if (mUevent[0] == '\0')
+		return;
+	kalSendUevent(mUevent);
+}
+
+int oplusLpmUeventInit(void)
+{
+	INIT_WORK(&mWork, oplusWorkHandler);
+	return RET_OK;
+}
+
+void oplusConnUeventDeinit(void)
+{
+	cancel_work_sync(&mWork);
+}
+
+int oplusLpmSendUevent(const char *src)
+{
+	if (src == NULL) {
+		return RET_ERR;
+	}
+	strlcpy(mUevent, src, sizeof(mUevent));
+	schedule_work(&mWork);
+
+	return RET_OK;
+}
+#endif /* OPLUS_FEATURE_CONN_POWER_MONITOR */
