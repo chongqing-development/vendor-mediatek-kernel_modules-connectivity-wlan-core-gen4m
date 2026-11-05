@@ -1986,3 +1986,7 @@ ifeq ($(WMT_SUPPORT), y)
 else
     ccflags-y += -Wframe-larger-than=2048
 endif
+
+#ifdef OPLUS_FEATURE_WIFI_CAPCENTER_GC_AP_CONNECT
+ccflags-y += -DCFG_P2P_CONNECT_ALL_BSS=1
+#endif /* OPLUS_FEATURE_WIFI_CAPCENTER_GC_AP_CONNECT */
