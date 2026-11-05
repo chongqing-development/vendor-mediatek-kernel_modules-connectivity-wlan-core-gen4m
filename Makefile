@@ -143,6 +143,10 @@ ccflags-y += -DLINUX
 ccflags-y += -DOPLUS_WLAN_BUG_STABILITY=1
 #endif  /* OPLUS_BUG_STABILITY */
 
+#ifdef OPLUS_FEATURE_WIFI_POWER
+ccflags-y += -DOPLUS_FEATURE_WIFI_POWER
+#endif /* OPLUS_FEATURE_WIFI_POWER */
+
 ifneq ($(filter MT6632,$(MTK_COMBO_CHIP)),)
 ccflags-y:=$(filter-out -UMT6632,$(ccflags-y))
 ccflags-y += -DMT6632

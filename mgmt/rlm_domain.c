@@ -70,6 +70,9 @@
  */
 #include "precomp.h"
 #include "rlm_txpwr_init.h"
+#ifdef OPLUS_FEATURE_WIFI_POWER
+#include <soc/oplus/system/oplus_project.h>
+#endif /* OPLUS_FEATURE_WIFI_POWER */
 
 /*******************************************************************************
  *                              C O N S T A N T S
@@ -1124,6 +1127,51 @@ struct SUBBAND_CHANNEL g_rRlmSubBand[] = {
 #endif /* CFG_SUPPORT_WIFI_6G */
 };
 #endif
+
+#ifdef OPLUS_FEATURE_WIFI_POWER
+struct oplus_country_pwr_limit g_oplusCountryPwrLimit[] = {
+    {22023, sizeof(g_rRlmPowerLimitConfiguration_22023)/sizeof(g_rRlmPowerLimitConfiguration_22023[0]), g_rRlmPowerLimitConfiguration_22023},
+    {22223, sizeof(g_rRlmPowerLimitConfiguration_22223)/sizeof(g_rRlmPowerLimitConfiguration_22223[0]), g_rRlmPowerLimitConfiguration_22223},
+    {23660, sizeof(g_rRlmPowerLimitConfiguration_23660)/sizeof(g_rRlmPowerLimitConfiguration_23660[0]), g_rRlmPowerLimitConfiguration_23660},
+    {23670, sizeof(g_rRlmPowerLimitConfiguration_23660)/sizeof(g_rRlmPowerLimitConfiguration_23660[0]), g_rRlmPowerLimitConfiguration_23660},
+    {23661, sizeof(g_rRlmPowerLimitConfiguration_23661)/sizeof(g_rRlmPowerLimitConfiguration_23661[0]), g_rRlmPowerLimitConfiguration_23661},
+    {23671, sizeof(g_rRlmPowerLimitConfiguration_23661)/sizeof(g_rRlmPowerLimitConfiguration_23661[0]), g_rRlmPowerLimitConfiguration_23661},
+    {23604, sizeof(g_rRlmPowerLimitConfiguration_23660)/sizeof(g_rRlmPowerLimitConfiguration_23660[0]), g_rRlmPowerLimitConfiguration_23660},
+    {23605, sizeof(g_rRlmPowerLimitConfiguration_23605)/sizeof(g_rRlmPowerLimitConfiguration_23605[0]), g_rRlmPowerLimitConfiguration_23605},
+    {23606, sizeof(g_rRlmPowerLimitConfiguration_23605)/sizeof(g_rRlmPowerLimitConfiguration_23605[0]), g_rRlmPowerLimitConfiguration_23605},
+};
+/*
+struct oplus_country_pwr_limit_he g_oplusCountryPwrLimitHe[] = {
+    {22023, sizeof(g_rRlmPowerLimitConfigurationHE_22023)/sizeof(g_rRlmPowerLimitConfigurationHE_22023[0]), g_rRlmPowerLimitConfigurationHE_22023},
+    {22223, sizeof(g_rRlmPowerLimitConfigurationHE_22223)/sizeof(g_rRlmPowerLimitConfigurationHE_22223[0]), g_rRlmPowerLimitConfigurationHE_22223},
+};
+*/
+struct oplus_country_pwr_limit_hebw160 g_oplusCountryPwrLimitHeBw160[] = {
+    {22023, sizeof(g_rRlmPowerLimitConfigurationHEBW160_22023)/sizeof(g_rRlmPowerLimitConfigurationHEBW160_22023[0]), g_rRlmPowerLimitConfigurationHEBW160_22023},
+    {22223, sizeof(g_rRlmPowerLimitConfigurationHEBW160_22223)/sizeof(g_rRlmPowerLimitConfigurationHEBW160_22223[0]), g_rRlmPowerLimitConfigurationHEBW160_22223},
+};
+
+#if (CFG_SUPPORT_PWR_LIMIT_EHT == 1)
+struct oplus_country_pwr_limit_eht g_oplusCountryPwrLimitEHT[] = {
+    {22023, sizeof(g_rRlmPowerLimitConfigurationEHT_22023)/sizeof(g_rRlmPowerLimitConfigurationEHT_22023[0]), g_rRlmPowerLimitConfigurationEHT_22023},
+    {22223, sizeof(g_rRlmPowerLimitConfigurationEHT_22223)/sizeof(g_rRlmPowerLimitConfigurationEHT_22223[0]), g_rRlmPowerLimitConfigurationEHT_22223},
+};
+#endif /* CFG_SUPPORT_PWR_LIMIT_EHT */
+
+struct COUNTRY_POWER_LIMIT_TABLE_DEFAULT *g_prOplusCountryPwrLimitDefault = g_rRlmPowerLimitDefault;
+uint16_t g_ucOplusCountryPwrLimitDefaultSize = sizeof(g_rRlmPowerLimitDefault)/sizeof(g_rRlmPowerLimitDefault[0]);
+struct oplus_country_pwr_limit_default g_oplusCountryPwrLimitDefault[] = {
+    {22023, sizeof(g_rRlmPowerLimitDefault_22023)/sizeof(g_rRlmPowerLimitDefault_22023[0]), g_rRlmPowerLimitDefault_22023},
+    {22223, sizeof(g_rRlmPowerLimitDefault_22223)/sizeof(g_rRlmPowerLimitDefault_22223[0]), g_rRlmPowerLimitDefault_22223},
+    {23660, sizeof(g_rRlmPowerLimitDefault_23660)/sizeof(g_rRlmPowerLimitDefault_23660[0]), g_rRlmPowerLimitDefault_23660},
+    {23670, sizeof(g_rRlmPowerLimitDefault_23660)/sizeof(g_rRlmPowerLimitDefault_23660[0]), g_rRlmPowerLimitDefault_23660},
+    {23661, sizeof(g_rRlmPowerLimitDefault_23661)/sizeof(g_rRlmPowerLimitDefault_23661[0]), g_rRlmPowerLimitDefault_23661},
+    {23671, sizeof(g_rRlmPowerLimitDefault_23661)/sizeof(g_rRlmPowerLimitDefault_23661[0]), g_rRlmPowerLimitDefault_23661},
+    {23604, sizeof(g_rRlmPowerLimitDefault_23660)/sizeof(g_rRlmPowerLimitDefault_23660[0]), g_rRlmPowerLimitDefault_23660},
+    {23605, sizeof(g_rRlmPowerLimitDefault_23605)/sizeof(g_rRlmPowerLimitDefault_23605[0]), g_rRlmPowerLimitDefault_23605},
+    {23606, sizeof(g_rRlmPowerLimitDefault_23605)/sizeof(g_rRlmPowerLimitDefault_23605[0]), g_rRlmPowerLimitDefault_23605},
+};
+#endif /*OPLUS_FEATURE_WIFI_POWER */
 /*******************************************************************************
  *                           P R I V A T E   D A T A
  *******************************************************************************
@@ -3190,7 +3238,9 @@ rlmDomainCheckPowerLimitValid(struct ADAPTER *prAdapter,
 /*----------------------------------------------------------------------------*/
 void rlmDomainCheckCountryPowerLimitTable(struct ADAPTER *prAdapter)
 {
+#ifndef OPLUS_FEATURE_WIFI_POWER
 #define PwrLmtConf g_rRlmPowerLimitConfiguration
+#endif /*OPLUS_FEATURE_WIFI_POWER*/
 	uint16_t i, j;
 	uint16_t u2CountryCodeTable, u2CountryCodeCheck;
 	u_int8_t fgChannelValid = FALSE;
@@ -3198,7 +3248,24 @@ void rlmDomainCheckCountryPowerLimitTable(struct ADAPTER *prAdapter)
 	u_int8_t fgEntryRepetetion = FALSE;
 	u_int8_t fgTableValid = TRUE;
 
+	#ifdef OPLUS_FEATURE_WIFI_POWER
+    struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION *PwrLmtConf = g_rRlmPowerLimitConfiguration;
+    uint16_t ucPwrLmitConfSize = (uint16_t)(sizeof(g_rRlmPowerLimitConfiguration) /
+    sizeof(struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION));
+
+    int u4PrjName = get_project();
+
+    for (i = 0; i < sizeof(g_oplusCountryPwrLimit)/sizeof(g_oplusCountryPwrLimit[0]); i++) {
+        if (u4PrjName == g_oplusCountryPwrLimit[i].project) {
+            PwrLmtConf = g_oplusCountryPwrLimit[i].pwrLimitTable;
+            ucPwrLmitConfSize = g_oplusCountryPwrLimit[i].tableSize;
+            break;
+        }
+    }
+    #endif /*OPLUS_FEATURE_WIFI_POWER*/
+
 	/*1.Configuration Table Check */
+	#ifndef OPLUS_FEATURE_WIFI_POWER
 	for (i = 0; i < sizeof(PwrLmtConf) /
 	     sizeof(struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION); i++) {
 		/*Table Country Code */
@@ -3283,6 +3350,7 @@ void rlmDomainCheckCountryPowerLimitTable(struct ADAPTER *prAdapter)
 		}
 
 	}
+    #endif /*OPLUS_FEATURE_WIFI_POWER*/
 
 	if (fgEntryRepetetion == FALSE)
 		DBGLOG(RLM, TRACE,
@@ -3296,6 +3364,7 @@ void rlmDomainCheckCountryPowerLimitTable(struct ADAPTER *prAdapter)
 
 	/*2.Default Table Repetition Entry Check */
 	fgEntryRepetetion = FALSE;
+	#ifndef OPLUS_FEATURE_WIFI_POWER
 	for (i = 0; i < sizeof(g_rRlmPowerLimitDefault) /
 	     sizeof(struct COUNTRY_POWER_LIMIT_TABLE_DEFAULT); i++) {
 
@@ -3319,6 +3388,29 @@ void rlmDomainCheckCountryPowerLimitTable(struct ADAPTER *prAdapter)
 			}
 		}
 	}
+	#else
+	for (i = 0; i < g_ucOplusCountryPwrLimitDefaultSize; i++) {
+
+		WLAN_GET_FIELD_BE16(&g_prOplusCountryPwrLimitDefault[i].
+							aucCountryCode[0],
+				    &u2CountryCodeTable);
+
+		for (j = i + 1; j < g_ucOplusCountryPwrLimitDefaultSize; j++) {
+			WLAN_GET_FIELD_BE16(&g_prOplusCountryPwrLimitDefault[j].
+							aucCountryCode[0],
+					    &u2CountryCodeCheck);
+			if (u2CountryCodeTable == u2CountryCodeCheck) {
+				fgEntryRepetetion = TRUE;
+				DBGLOG(RLM, LOUD,
+				       "Domain: Default Repetition CC=%c%c\n",
+				       g_prOplusCountryPwrLimitDefault[j].
+							aucCountryCode[0],
+				       g_prOplusCountryPwrLimitDefault[j].
+							aucCountryCode[1]);
+			}
+		}
+	}
+	#endif /*OPLUS_FEATURE_WIFI_POWER*/
 	if (fgEntryRepetetion == FALSE)
 		DBGLOG(RLM, TRACE, "Domain: Default Table no Repetiton.\n");
 #undef PwrLmtConf
@@ -3340,6 +3432,20 @@ uint16_t rlmDomainPwrLimitDefaultTableDecision(struct ADAPTER *prAdapter,
 	uint16_t u2CountryCodeTable = COUNTRY_CODE_NULL;
 	uint16_t u2TableIndex = POWER_LIMIT_TABLE_NULL;	/* No Table Match */
 	struct COUNTRY_POWER_LIMIT_GROUP_TABLE *prCountryGrpInfo;
+	#ifdef OPLUS_FEATURE_WIFI_POWER
+	for (i = 0; i < g_ucOplusCountryPwrLimitDefaultSize; i++) {
+
+		WLAN_GET_FIELD_BE16(&g_prOplusCountryPwrLimitDefault[i].
+						aucCountryCode[0],
+				    &u2CountryCodeTable);
+
+		if (u2CountryCodeTable == u2CountryCode) {
+			u2TableIndex = i;
+			return u2TableIndex;
+		}
+
+	}
+	#endif /* OPLUS_FEATURE_WIFI_POWER */
 
 	for (i = 0; i < COUNTRY_LIMIT_GROUP_NUM; i++) {
 		prCountryGrpInfo = &arSupportCountryPowerLmtGrps[i];
@@ -3370,8 +3476,8 @@ uint16_t rlmDomainPwrLimitDefaultTableDecision(struct ADAPTER *prAdapter,
 			((u2CountryCode & 0xff00) >> 8),
 			(u2CountryCode & 0x00ff));
 	}
-
 	/*Default Table Index */
+	#ifndef OPLUS_FEATURE_WIFI_POWER
 	for (i = 0; i < sizeof(g_rRlmPowerLimitDefault) /
 	     sizeof(struct COUNTRY_POWER_LIMIT_TABLE_DEFAULT); i++) {
 
@@ -3387,6 +3493,22 @@ uint16_t rlmDomainPwrLimitDefaultTableDecision(struct ADAPTER *prAdapter,
 			break;	/*find last one country- Default */
 		}
 	}
+	#else
+	for (i = 0; i < g_ucOplusCountryPwrLimitDefaultSize; i++) {
+
+		WLAN_GET_FIELD_BE16(&g_prOplusCountryPwrLimitDefault[i].
+						aucCountryCode[0],
+				    &u2CountryCodeTable);
+
+		if (u2CountryCodeTable == u2CountryCode) {
+			u2TableIndex = i;
+			break;	/*match country code */
+		} else if (u2CountryCodeTable == COUNTRY_CODE_NULL) {
+			u2TableIndex = i;
+			break;	/*find last one country- Default */
+		}
+	}
+	#endif /*OPLUS_FEATURE_WIFI_POWER*/
 
 	return u2TableIndex;
 }
@@ -3603,7 +3725,11 @@ rlmDomainBuildCmdByDefaultTable(struct CMD_SET_COUNTRY_CHANNEL_POWER_LIMIT
 	uint8_t u1PwrIdx = 0;
 	ASSERT(prCmd);
 
+	#ifndef OPLUS_FEATURE_WIFI_POWER
 	prPwrLimitSubBand = &g_rRlmPowerLimitDefault[u2DefaultTableIndex];
+	#else
+	prPwrLimitSubBand = &g_prOplusCountryPwrLimitDefault[u2DefaultTableIndex];
+	#endif /*OPLUS_FEATURE_WIFI_POWER*/
 	eType = prCmd->ucLimitType;
 	if (eType == PWR_LIMIT_TYPE_COMP_11AX)
 		prPwrLmtHE = &prCmd->u.rChPwrLimtHE[0];
@@ -4413,12 +4539,24 @@ static void rlmDomainCompareFromConfigTable(int8_t *prPwrLmt,
 void rlmDomainBuildCmdByConfigTable(struct ADAPTER *prAdapter,
 			struct CMD_SET_COUNTRY_CHANNEL_POWER_LIMIT *prCmd)
 {
+#ifndef OPLUS_FEATURE_WIFI_POWER
 #define PwrLmtConf g_rRlmPowerLimitConfiguration
 #define PwrLmtConfHE g_rRlmPowerLimitConfigurationHE
 #define PwrLmtConfHEBW160 g_rRlmPowerLimitConfigurationHEBW160
 #if (CFG_SUPPORT_PWR_LIMIT_EHT == 1)
 #define PwrLmtConfEHT g_rRlmPowerLimitConfigurationEHT
 #endif /* CFG_SUPPORT_PWR_LIMIT_EHT */
+
+#else
+	struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION *PwrLmtConf = g_rRlmPowerLimitConfiguration;
+    #define PwrLmtConfHE g_rRlmPowerLimitConfigurationHE
+	//struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION_HE *PwrLmtConfHE = g_rRlmPowerLimitConfigurationHE;
+	struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION_HE_BW160 *PwrLmtConfHEBW160 = g_rRlmPowerLimitConfigurationHEBW160;
+#if (CFG_SUPPORT_PWR_LIMIT_EHT == 1)
+	struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION_EHT *PwrLmtConfEHT = g_rRlmPowerLimitConfigurationEHT;
+#endif /* CFG_SUPPORT_PWR_LIMIT_EHT */
+
+#endif /*OPLUS_FEATURE_WIFI_POWER*/
 #if (CFG_SUPPORT_WIFI_6G == 1)
 #define PwrLmtConf6E g_rRlmPowerLimitConfiguration6E
 #define PwrLmtConfLegacy_6G g_rRlmPowerLimitConfigurationLegacy6G
@@ -4445,6 +4583,7 @@ void rlmDomainBuildCmdByConfigTable(struct ADAPTER *prAdapter,
 #endif /* CFG_SUPPORT_WIFI_6G */
 	u_int8_t fgChannelValid;
 	uint8_t ucCentCh;
+	#ifndef OPLUS_FEATURE_WIFI_POWER
 	uint8_t ucPwrLmitConfSize = sizeof(PwrLmtConf) /
 		sizeof(struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION);
 
@@ -4456,6 +4595,24 @@ void rlmDomainBuildCmdByConfigTable(struct ADAPTER *prAdapter,
 	uint8_t ucPwrLmitConfSizeEHT = sizeof(PwrLmtConfEHT) /
 		sizeof(struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION_EHT);
 #endif /* CFG_SUPPORT_PWR_LIMIT_EHT */
+    #else
+	uint8_t ucPwrLmitConfSize = sizeof(g_rRlmPowerLimitConfiguration) /
+		sizeof(struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION);
+	uint8_t ucPwrLmitConfSizeHE = sizeof(PwrLmtConfHE) /
+		sizeof(struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION_HE);
+/*
+	uint8_t ucPwrLmitConfSizeHE = sizeof(g_rRlmPowerLimitConfigurationHE) /
+		sizeof(struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION_HE);
+*/
+	uint8_t ucPwrLmitConfSizeHEBW160 = sizeof(g_rRlmPowerLimitConfigurationHEBW160) /
+		sizeof(struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION_HE_BW160);
+
+#if (CFG_SUPPORT_PWR_LIMIT_EHT == 1)
+	uint8_t ucPwrLmitConfSizeEHT = sizeof(g_rRlmPowerLimitConfigurationEHT) /
+		sizeof(struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION_EHT);
+#endif /* CFG_SUPPORT_PWR_LIMIT_EHT */
+    #endif /*OPLUS_FEATURE_WIFI_POWER*/
+
 #if (CFG_SUPPORT_WIFI_6G == 1)
 	uint8_t ucPwrLmitConfSize6E = sizeof(PwrLmtConf6E) /
 		sizeof(struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION_6E);
@@ -4467,6 +4624,48 @@ void rlmDomainBuildCmdByConfigTable(struct ADAPTER *prAdapter,
 		sizeof(struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION_EHT_6G);
 #endif /* CFG_SUPPORT_PWR_LIMIT_EHT */
 #endif /* CFG_SUPPORT_WIFI_6G */
+
+	#ifdef OPLUS_FEATURE_WIFI_POWER
+    int u4PrjName = get_project();
+
+        for (i = 0; i < sizeof(g_oplusCountryPwrLimit)/sizeof(g_oplusCountryPwrLimit[0]); i++) {
+        if (u4PrjName == g_oplusCountryPwrLimit[i].project) {
+            PwrLmtConf = g_oplusCountryPwrLimit[i].pwrLimitTable;
+            ucPwrLmitConfSize = g_oplusCountryPwrLimit[i].tableSize;
+
+            break;
+        }
+    }
+/*
+    for (i = 0; i < sizeof(g_oplusCountryPwrLimitHe)/sizeof(g_oplusCountryPwrLimitHe[0]); i++) {
+        if (u4PrjName == g_oplusCountryPwrLimitHe[i].project) {
+            PwrLmtConfHE = g_oplusCountryPwrLimitHe[i].pwrLimitTableHE;
+            ucPwrLmitConfSizeHE = g_oplusCountryPwrLimitHe[i].tableSize;
+
+            break;
+        }
+    }
+*/
+    for (i = 0; i < sizeof(g_oplusCountryPwrLimitHeBw160)/sizeof(g_oplusCountryPwrLimitHeBw160[0]); i++) {
+        if (u4PrjName == g_oplusCountryPwrLimitHeBw160[i].project) {
+            PwrLmtConfHEBW160 = g_oplusCountryPwrLimitHeBw160[i].pwrLimitTableHEBW160;
+            ucPwrLmitConfSizeHEBW160 = g_oplusCountryPwrLimitHeBw160[i].tableSize;
+
+            break;
+        }
+    }
+
+#if (CFG_SUPPORT_PWR_LIMIT_EHT == 1)
+    for (i = 0; i < sizeof(g_oplusCountryPwrLimitEHT)/sizeof(g_oplusCountryPwrLimitEHT[0]); i++) {
+        if (u4PrjName == g_oplusCountryPwrLimitEHT[i].project) {
+            PwrLmtConfEHT = g_oplusCountryPwrLimitEHT[i].pwrLimitTableEHT;
+            ucPwrLmitConfSizeEHT = g_oplusCountryPwrLimitEHT[i].tableSize;
+
+            break;
+        }
+    }
+#endif /* CFG_SUPPORT_PWR_LIMIT_EHT */
+    #endif /*OPLUS_FEATURE_WIFI_POWER*/
 	eType = prCmd->ucLimitType;
 
 	/*Build power limit cmd by configuration table information */
@@ -8049,6 +8248,24 @@ void txPwrCtrlCfgFileToList(struct ADAPTER *prAdapter)
 		       "no txpowerctrl.cfg or file is empty\n");
 }
 
+#ifdef OPLUS_FEATURE_WIFI_POWER
+void txPwrCtrlCfgCountryDefaultTableInit(struct ADAPTER *prAdapter)
+{
+    uint16_t i;
+
+    int u4PrjName = get_project();
+
+    for (i = 0; i < sizeof(g_oplusCountryPwrLimitDefault)/sizeof(g_oplusCountryPwrLimitDefault[0]); i++) {
+        if (u4PrjName == g_oplusCountryPwrLimitDefault[i].project) {
+            g_prOplusCountryPwrLimitDefault = g_oplusCountryPwrLimitDefault[i].pwrLimitTableDefault;
+            g_ucOplusCountryPwrLimitDefaultSize = g_oplusCountryPwrLimitDefault[i].tableSize;
+
+            break;
+        }
+    }
+}
+#endif /*OPLUS_FEATURE_WIFI_POWER*/
+
 void txPwrCtrlLoadConfig(struct ADAPTER *prAdapter)
 {
 	/* 1. add records from global tx power ctrl setting into cfg list */
@@ -8058,6 +8275,11 @@ void txPwrCtrlLoadConfig(struct ADAPTER *prAdapter)
 	txPwrCtrlCfgFileToList(prAdapter);
 
 #if CFG_SUPPORT_PWR_LIMIT_COUNTRY
+
+	#ifdef OPLUS_FEATURE_WIFI_POWER
+	txPwrCtrlCfgCountryDefaultTableInit(prAdapter);
+	#endif /*OPLUS_FEATURE_WIFI_POWER*/
+
 	/* 3. send setting to firmware */
 	rlmDomainSendPwrLimitCmd(prAdapter);
 #endif
@@ -8587,10 +8809,15 @@ void rlmDomainSendPwrLimitCmd(struct ADAPTER *prAdapter)
 					   "Can't find any table index!\n");
 		goto err;
 	}
-
+	#ifndef OPLUS_FEATURE_WIFI_POWER
 	pu1PwrLmtCountryCode = &g_rRlmPowerLimitDefault
 				[u2DefaultTableIndex]
 				.aucCountryCode[0];
+	#else
+	pu1PwrLmtCountryCode = &g_prOplusCountryPwrLimitDefault
+				[u2DefaultTableIndex]
+				.aucCountryCode[0];
+	#endif /*OPLUS_FEATURE_WIFI_POWER*/
 
 	WLAN_GET_FIELD_BE16(pu1PwrLmtCountryCode,
 		&prCmd->u2CountryCode);

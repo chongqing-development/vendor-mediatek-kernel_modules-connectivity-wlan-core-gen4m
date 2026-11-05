@@ -1336,7 +1336,40 @@ struct COUNTRY_POWER_LIMIT_GROUP_TABLE {
 	struct COUNTRY_POWER_LIMIT_COUNTRY_CODE *prGroup;
 };
 
-#endif /* CFG_SUPPORT_PWR_LIMIT_COUNTRY */
+#ifdef OPLUS_FEATURE_WIFI_POWER
+struct oplus_country_pwr_limit {
+    uint32_t project;
+    uint16_t tableSize;
+    struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION *pwrLimitTable;
+};
+
+struct oplus_country_pwr_limit_he {
+    uint32_t project;
+    uint16_t tableSize;
+    struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION_HE *pwrLimitTableHE;
+};
+
+struct oplus_country_pwr_limit_hebw160 {
+    uint32_t project;
+    uint16_t tableSize;
+    struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION_HE_BW160 *pwrLimitTableHEBW160;
+};
+
+#if (CFG_SUPPORT_PWR_LIMIT_EHT == 1)
+struct oplus_country_pwr_limit_eht {
+    uint32_t project;
+    uint16_t tableSize;
+    struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION_EHT *pwrLimitTableEHT;
+};
+#endif /* CFG_SUPPORT_PWR_LIMIT_EHT */
+
+struct oplus_country_pwr_limit_default {
+    uint32_t project;
+    uint16_t tableSize;
+    struct COUNTRY_POWER_LIMIT_TABLE_DEFAULT *pwrLimitTableDefault;
+};
+#endif /*OPLUS_FEATURE_WIFI_CUSTOMER_NVRAM */
+#endif /* OPLUS_FEATURE_WIFI_POWER */
 
 #if (CFG_SUPPORT_SINGLE_SKU == 1)
 /*
