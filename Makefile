@@ -139,6 +139,10 @@ ccflags-y += -Werror $(call cc-disable-warning, unused-but-set-variable)
 # because some of common part code is surrounded with this flag
 ccflags-y += -DLINUX
 
+#ifdef OPLUS_BUG_STABILITY
+ccflags-y += -DOPLUS_WLAN_BUG_STABILITY=1
+#endif  /* OPLUS_BUG_STABILITY */
+
 ifneq ($(filter MT6632,$(MTK_COMBO_CHIP)),)
 ccflags-y:=$(filter-out -UMT6632,$(ccflags-y))
 ccflags-y += -DMT6632

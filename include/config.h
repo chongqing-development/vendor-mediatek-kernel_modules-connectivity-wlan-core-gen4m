@@ -1136,7 +1136,13 @@
 
 #endif /* CFG_SUPPORT_ROAMING */
 
-#define CFG_SUPPORT_MLR				1
+//#ifndef OPLUS_BUG_STABILITY
+////Modify for disable MLR
+//#define CFG_SUPPORT_MLR				1
+//#else  /* OPLUS_BUG_STABILITY */
+#define CFG_SUPPORT_MLR				0
+//#endif /* OPLUS_BUG_STABILITY */
+
 
 #define CFG_SUPPORT_SWCR			1
 
@@ -1320,7 +1326,12 @@
 
 #define CFG_FIX_2_TX_PORT			0
 
-#define CFG_CHANGE_CRITICAL_PACKET_PRIORITY	1
+#ifndef OPLUS_BUG_STABILITY
+////Modify for disable arp vo setting
+#define CFG_CHANGE_CRITICAL_PACKET_PRIORITY     1
+#else  /* OPLUS_BUG_STABILITY */
+#define CFG_CHANGE_CRITICAL_PACKET_PRIORITY     0
+#endif /* OPLUS_BUG_STABILITY */
 
 #ifndef CFG_TX_HIF_PORT_QUEUE
 #define CFG_TX_HIF_PORT_QUEUE		0
@@ -1426,7 +1437,11 @@
 /* During a full2partial scan period, all online full scan requests would be
  * changed to partial scan. The unit of this value is second
  */
-#define CFG_SUPPORT_FULL2PARTIAL_SCAN      (1)
+//#ifndef OPLUS_BUG_STABILITY
+//#define CFG_SUPPORT_FULL2PARTIAL_SCAN      (1)
+//#else /* OPLUS_BUG_STABILITY */
+#define CFG_SUPPORT_FULL2PARTIAL_SCAN      (0)
+//#endif /* OPLUS_BUG_STABILITY */
 #define CFG_SCAN_FULL2PARTIAL_PERIOD       (60)
 
 /*------------------------------------------------------------------------------

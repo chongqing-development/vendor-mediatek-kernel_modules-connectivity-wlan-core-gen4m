@@ -590,6 +590,13 @@ struct PARAM_CUSTOM_KEY_CFG_STRUCT g_rDefaulteSetting[] = {
 	*	"Operation:default 0"
 	*   }
 	*/
+#ifdef OPLUS_WLAN_BUG_STABILITY
+	//Add for add beacon to 10+10 before disconnect to avoid multiple disconnect
+	{"ScreenOnBeaconTimeoutCount", "10"},
+	//Add for check if any data at the last 2s,if has then not disconnect
+	{"BeaconTimoutFilterDurationMs","2000"},
+#endif /* OPLUS_WLAN_BUG_STABILITY */
+
 	{"AdapScan", "0x0", WLAN_CFG_DEFAULT},
 #if CFG_SUPPORT_IOT_AP_BLACKLIST
 	/*Fill Iot AP blacklist here*/
@@ -604,6 +611,27 @@ struct PARAM_CUSTOM_KEY_CFG_STRUCT g_rDefaulteSetting[] = {
 	{"DropPacketsIPV6Low", "0x1"},
 	{"Sta2gBw", "1"},
 #endif
+#ifdef OPLUS_WLAN_BUG_STABILITY
+	//Add for: filter SSDP packets
+	{"DropPacketsIPV4Low", "0x12DE"},
+	{"DropPacketsIPV4High", "0x0"},
+
+	//Add for: filter IPV6 multicast packets
+	{"DropPacketsIPV6Low", "0x2"},
+	{"DropPacketsIPV6High", "0x0"},
+
+	//Add for: 2.4G mask invalid issue
+	{"2GTxMaskDPDOn", "1"},
+	{"2GTxPMinus1dbAtHighTemp", "1"},
+	{"TssiGroupBackupRestore", "1"},
+#endif /* OPLUS_WLAN_BUG_STABILITY */
+
+#ifdef OPLUS_WLAN_BUG_STABILITY
+	//Add for: adjust beacon miss report time as 3 seconds, 5*100ms is a round
+	{"LdtBTONullHwLifeTime", "5"},
+	//Add for disable high rssi roam  in driver
+	{"DisDriverRoaming", "1"},
+#endif /* OPLUS_WLAN_BUG_STABILITY */
 };
 
 /*******************************************************************************
@@ -8075,6 +8103,11 @@ void wlanInitFeatureOption(struct ADAPTER *prAdapter)
 					prAdapter, "DisAgingLostDetection", 0);
 	prWifiVar->fgDisRoaming = (uint32_t) wlanCfgGetUint32(
 					prAdapter, "DisRoaming", 0);
+#ifdef OPLUS_WLAN_BUG_STABILITY
+	//Add for disable high rssi roam  in driver
+	prWifiVar->fgDisDriverRoaming = (uint32_t) wlanCfgGetUint32(
+					prAdapter, "DisDriverRoaming", 0);
+#endif /* OPLUS_WLAN_BUG_STABILITY */
 	prWifiVar->u4AisRoamingNumber = (uint32_t) wlanCfgGetUint32(
 					prAdapter, "AisRoamingNumber",
 					KAL_AIS_NUM);

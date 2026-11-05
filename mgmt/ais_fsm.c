@@ -6791,7 +6791,12 @@ uint8_t aisCheckNeedDriverRoaming(
 #else
 		if (bss->eBand == BAND_5G
 #endif
-			&& target->eBand == BAND_2G4) {
+#ifndef OPLUS_WLAN_BUG_STABILITY
+			//Add for disable high rssi roam  in driver
+                        && target->eBand == BAND_2G4) {
+#else /* OPLUS_WLAN_BUG_STABILITY */
+			&& (target->eBand == BAND_2G4) && !prAdapter->rWifiVar.fgDisDriverRoaming) {
+#endif /* OPLUS_WLAN_BUG_STABILITY */
 			if (rssi > RSSI_BAD_NEED_ROAM_24G_TO_5G_6G)
 				return FALSE;
 			if (bss->ucRCPI >= RCPI_THRESHOLD_ROAM_TO_5G_6G ||

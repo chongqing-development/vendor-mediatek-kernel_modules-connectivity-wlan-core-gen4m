@@ -1103,6 +1103,10 @@ struct WIFI_VAR {
 	uint32_t fgDisBcnLostDetection;
 	uint32_t fgDisAgingLostDetection;
 	uint32_t fgDisRoaming;		/* 0:enable roaming 1:disable */
+#ifdef OPLUS_WLAN_BUG_STABILITY
+	//Add for disable high rssi roam  in driver
+	uint32_t fgDisDriverRoaming;
+#endif /* OPLUS_WLAN_BUG_STABILITY */
 	uint32_t u4AisRoamingNumber;
 	uint32_t fgEnArpFilter;
 

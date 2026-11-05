@@ -1144,6 +1144,31 @@ static uint8_t apsSanityCheckBssDesc(struct ADAPTER *prAdapter,
 				RCPI_TO_dBm(prBssDesc->ucRCPI));
 			return FALSE;
 		}
+#ifdef OPLUS_WLAN_BUG_STABILITY
+		if (eRoamReason == ROAMING_REASON_BTM) {
+			struct BSS_DESC *target =
+				aisGetTargetBssDesc(prAdapter, ucBssIndex);
+			struct BSS_TRANSITION_MGT_PARAM *prBtmParam =
+				aisGetBTMParam(prAdapter, ucBssIndex);
+			uint8_t ucReqDisassocImminentMode = 0;
+			int32_t r1, r2;
+
+			r1 = RCPI_TO_dBm(target->ucRCPI);
+			r2 = RCPI_TO_dBm(prBssDesc->ucRCPI);
+			ucReqDisassocImminentMode =
+				((prBtmParam->ucRequestMode &
+				WNM_BSS_TM_REQ_DISASSOC_IMMINENT) ||
+				(prBtmParam->ucRequestMode &
+				WNM_BSS_TM_REQ_ESS_DISASSOC_IMMINENT));
+			if ((ucReqDisassocImminentMode == 0) &&
+				(r2 < r1 || r2 < -75)) {
+				log_dbg(SCN, INFO,
+					MACSTR " BTM policy ignore %d (cur=%d)\n",
+					MAC2STR(prBssDesc->aucBSSID), r2, r1);
+				return FALSE;
+			}
+		}
+#endif /* OPLUS_WLAN_BUG_STABILITY */
 	}
 
 	if (!(prBssDesc->ucPhyTypeSet &
